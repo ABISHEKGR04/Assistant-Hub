@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --secondary: #818cf8;
+      --background: #1f2937;
+      --text: #f3f4f6;
+      --chat-bg: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--chat-bg);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: slideIn 0.5s ease-out;
+    }
+
+    /* Home button styles */
+    .home-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text);
+      background: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .home-button:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header i {
+      font-size: 2rem;
+      color: var(--primary);
+      animation: pulse 2s infinite;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    textarea {
+      padding: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      width: 100%;
+      height: 150px;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    button {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 10px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    button i {
+      font-size: 1.2rem;
+    }
+
+    .response {
+      margin-top: 2rem;
+    }
+
+    .response h2 {
+      font-size: 1.5rem;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .response textarea {
+      width: 100%;
+      height: 150px;
+      padding: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 1rem;
+      resize: none;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Home Button -->
+    <a href="index" class="home-button">
+      <i class="fas fa-home"></i> Home
+    </a>
+
+    <div class="header">
+      <i class="fas fa-code"></i>
+      <h1>Code Assistant</h1>
+    </div>
+    <form method="POST">
+      <label for="code_input">Enter your coding question or paste code for assistance:</label>
+      <textarea id="code_input" name="code_input" required></textarea>
+      <button type="submit">
+        <i class="fas fa-paper-plane"></i>
+        Get Code Assistance
+      </button>
+    </form>
+    {% if code_response %}
+    <div class="response">
+      <h2>Code Assistant Response:</h2>
+      <textarea readonly>{{ code_response }}</textarea>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
